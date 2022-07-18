@@ -40,13 +40,14 @@ SevenSeg::SevenSeg(int A,int B,int C,int D,int E,int F,int G){
   _DP=-1;	// DP initially not assigned
 
   // Set all segment pins as outputs
-  pinMode(_A, OUTPUT);
-  pinMode(_B, OUTPUT);
-  pinMode(_C, OUTPUT);
-  pinMode(_D, OUTPUT);
-  pinMode(_E, OUTPUT);
-  pinMode(_F, OUTPUT);
-  pinMode(_G, OUTPUT);
+  
+  mcp.pinMode(_A, OUTPUT)
+  mcp.pinMode(_B, OUTPUT);
+  mcp.pinMode(_C, OUTPUT);
+  mcp.pinMode(_D, OUTPUT);
+  mcp.pinMode(_E, OUTPUT);
+  mcp.pinMode(_F, OUTPUT);
+  mcp.pinMode(_G, OUTPUT);
 
   // Assume no digit pins are used (i.e. it's only one hardwired digit)
   _numOfDigits=0;
@@ -99,22 +100,22 @@ void SevenSeg::setCommonCathode(){
 void SevenSeg::clearDisp(){
 
   for(int i=0;i<_numOfDigits;i++){
-    digitalWrite(_dig[i], _digOff);
+    mcp.digitalWrite(_dig[i], _digOff);
   }
-  digitalWrite(_A, _segOff);
-  digitalWrite(_B, _segOff);
-  digitalWrite(_C, _segOff);
-  digitalWrite(_D, _segOff);
-  digitalWrite(_E, _segOff);
-  digitalWrite(_F, _segOff);
-  digitalWrite(_G, _segOff);
+  mcp.digitalWrite(_A, _segOff);
+  mcp.digitalWrite(_B, _segOff);
+  mcp.digitalWrite(_C, _segOff);
+  mcp.digitalWrite(_D, _segOff);
+  mcp.digitalWrite(_E, _segOff);
+  mcp.digitalWrite(_F, _segOff);
+  mcp.digitalWrite(_G, _segOff);
 
   if(_DP!=-1){	// Clear DP too if assigned
-    digitalWrite(_DP, _segOff);
+    mcp.digitalWrite(_DP, _segOff);
   }
 
   if(_symbDigPin!=-1){
-    digitalWrite(_symbDigPin, _digOff);
+    mcp.digitalWrite(_symbDigPin, _digOff);
   }
 
 }
@@ -703,10 +704,10 @@ void SevenSeg::changeDigit(char digit){
   if(digit=='s'){
     // change to the symbol digit
     clearDisp();
-    digitalWrite(_symbDigPin, _digOn);
-    digitalWrite(_colonSegPin, _colonState);
-    digitalWrite(_colonSegLPin, _colonState);
-    digitalWrite(_aposSegPin, _aposState);
+    mcp.digitalWrite(_symbDigPin, _digOn);
+    mcp.digitalWrite(_colonSegPin, _colonState);
+    mcp.digitalWrite(_colonSegLPin, _colonState);
+    mcp.digitalWrite(_aposSegPin, _aposState);
   }
 
   if(digit==' '){
@@ -718,19 +719,19 @@ void SevenSeg::changeDigit(char digit){
 void SevenSeg::setDPPin(int DPPin){
 
   _DP=DPPin;
-  pinMode(_DP, OUTPUT);
+  mcp.pinMode(_DP, OUTPUT);
 
 }
 
 void SevenSeg::setDP(){
 
-  digitalWrite(_DP, _segOn);
+ mcp.digitalWrite(_DP, _segOn);
 
 }
 
 void SevenSeg::clearDP(){
 
-  digitalWrite(_DP, _segOff);
+  mcp.digitalWrite(_DP, _segOff);
 
 }
 /*
@@ -813,7 +814,7 @@ I've decided to treat the symbols in the following way
 void SevenSeg::setColonPin(int colonPin){
   _colonSegPin=colonPin;
   pinMode(_colonSegPin,OUTPUT);
-  digitalWrite(_colonSegPin, _colonState);
+  mcp.digitalWrite(_colonSegPin, _colonState);
 }
 
 void SevenSeg::setSymbPins(int digPin, int segUCPin, int segLCPin, int segAPin){
@@ -823,13 +824,13 @@ void SevenSeg::setSymbPins(int digPin, int segUCPin, int segLCPin, int segAPin){
   _symbDigPin=digPin;
   _aposState=_segOff;
   _colonState=_segOff;
-  pinMode(_colonSegPin,OUTPUT);
-  pinMode(_colonSegLPin,OUTPUT);
-  pinMode(_aposSegPin,OUTPUT);
-  pinMode(_symbDigPin,OUTPUT);
-  digitalWrite(_colonSegPin, _colonState);
-  digitalWrite(_colonSegLPin, _colonState);
-  digitalWrite(_aposSegPin, _aposState);
+  mcp.pinMode(_colonSegPin,OUTPUT);
+  mcp.pinMode(_colonSegLPin,OUTPUT);
+  mcp.pinMode(_aposSegPin,OUTPUT);
+  mcp.pinMode(_symbDigPin,OUTPUT);
+  mcp.digitalWrite(_colonSegPin, _colonState);
+  mcp.digitalWrite(_colonSegLPin, _colonState);
+  mcp.digitalWrite(_aposSegPin, _aposState);
 }
 
 /*
@@ -862,119 +863,119 @@ changeDigit('s'). This function will light up the appropriate symbols in accorda
 void SevenSeg::setColon(){
   _colonState=_segOn;
   if(_symbDigPin==-1){
-    digitalWrite(_colonSegPin, _segOn);
+    mcp.digitalWrite(_colonSegPin, _segOn);
   }
 }
 
 void SevenSeg::clearColon(){
   _colonState=_segOff;
   if(_symbDigPin==-1){
-    digitalWrite(_colonSegPin, _segOff);
+    mcp.digitalWrite(_colonSegPin, _segOff);
   }
 }
 
 void SevenSeg::setApos(){
   _aposState=_segOn;
   if(_symbDigPin==-1){
-    digitalWrite(_aposSegPin, _segOn);
+    mcp.digitalWrite(_aposSegPin, _segOn);
   }
 }
 
 void SevenSeg::clearApos(){
   _aposState=_segOff;
   if(_symbDigPin==-1){
-    digitalWrite(_aposSegPin, _segOff);
+    mcp.digitalWrite(_aposSegPin, _segOff);
   }
 }
 
 void SevenSeg::writeDigit(int digit){
 
   // Turn off all LEDs first to avoid running current through too many LEDs at once.
-  digitalWrite(_A, _segOff);
-  digitalWrite(_B, _segOff);
-  digitalWrite(_C, _segOff);
-  digitalWrite(_D, _segOff);
-  digitalWrite(_E, _segOff);
-  digitalWrite(_F, _segOff);
-  digitalWrite(_G, _segOff);
+  mcp.digitalWrite(_A, _segOff);
+  mcp.digitalWrite(_B, _segOff);
+  mcp.digitalWrite(_C, _segOff);
+  mcp.digitalWrite(_D, _segOff);
+  mcp.digitalWrite(_E, _segOff);
+  mcp.digitalWrite(_F, _segOff);
+  mcp.digitalWrite(_G, _segOff);
 
   if(digit==1){
-    digitalWrite(_B, _segOn);
-    digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_C, _segOn);
   }
 
   if(digit==2){
-    digitalWrite(_A, _segOn);
-    digitalWrite(_B, _segOn);
-    digitalWrite(_G, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_D, _segOn);
   }
 
   if(digit==3){
-    digitalWrite(_A, _segOn);
-    digitalWrite(_B, _segOn);
-    digitalWrite(_G, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_D, _segOn);
   }
 
   if(digit==4){
-    digitalWrite(_F, _segOn);
-    digitalWrite(_G, _segOn);
-    digitalWrite(_B, _segOn);
-    digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_C, _segOn);
   }
 
   if(digit==5){
-    digitalWrite(_A, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_G, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_D, _segOn);
   }
 
   if(digit==6){
-    digitalWrite(_A, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_D, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit==7){
-    digitalWrite(_A, _segOn);
-    digitalWrite(_B, _segOn);
-    digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_C, _segOn);
   }
 
   if(digit==8){
-    digitalWrite(_A, _segOn);
-    digitalWrite(_B, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_D, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit==9){
-    digitalWrite(_G, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_A, _segOn);
-    digitalWrite(_B, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_D, _segOn);
   }
 
   if(digit==0){
-    digitalWrite(_A, _segOn);
-    digitalWrite(_B, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_D, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
   }
 
 }
@@ -982,23 +983,23 @@ void SevenSeg::writeDigit(int digit){
 void SevenSeg::writeDigit(char digit){
 
   // Turn off all LEDs first. Run writeDigit(' ') to clear digit.
-  digitalWrite(_A, _segOff);
-  digitalWrite(_B, _segOff);
-  digitalWrite(_C, _segOff);
-  digitalWrite(_D, _segOff);
-  digitalWrite(_E, _segOff);
-  digitalWrite(_F, _segOff);
-  digitalWrite(_G, _segOff);
+  mcp.digitalWrite(_A, _segOff);
+  mcp.digitalWrite(_B, _segOff);
+  mcp.digitalWrite(_C, _segOff);
+  mcp.digitalWrite(_D, _segOff);
+  mcp.digitalWrite(_E, _segOff);
+  mcp.digitalWrite(_F, _segOff);
+  mcp.digitalWrite(_G, _segOff);
 
   if(digit=='-'){
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit=='\370'){ // ASCII code 248 or degree symbol: '°'
-    digitalWrite(_A, _segOn);
-    digitalWrite(_B, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   // Digits are numbers. Write with writeDigit(int)
@@ -1008,50 +1009,50 @@ void SevenSeg::writeDigit(char digit){
   if(digit>=97&&digit<=122) digit-=32;
 
   if(digit=='A'){
-    digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_A, _segOn);
     digitalWrite(_B, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit=='B'){
-    digitalWrite(_C, _segOn);
-    digitalWrite(_D, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit=='C'){
-    digitalWrite(_A, _segOn);
-    digitalWrite(_D, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
   }
 
   if(digit=='D'){
-    digitalWrite(_B, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_D, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit=='E'){
-    digitalWrite(_A, _segOn);
-    digitalWrite(_D, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit=='F'){
-    digitalWrite(_A, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit=='G'){
@@ -1064,146 +1065,146 @@ void SevenSeg::writeDigit(char digit){
     digitalWrite(_G, _segOn);
     // TBD: Really write G like a 9, when it can be written as almost G?
 */
-    digitalWrite(_A, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_D, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
   }
 
   if(digit=='H'){
-    digitalWrite(_B, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit=='I'){
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
   }
 
   if(digit=='J'){
-    digitalWrite(_B, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_D, _segOn);
-    digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_E, _segOn);
   }
 
   if(digit=='K'){
-    digitalWrite(_B, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit=='L'){
-    digitalWrite(_D, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
   }
 
   if(digit=='M'){
-    digitalWrite(_A, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_E, _segOn);
   }
 
   if(digit=='N'){
-    digitalWrite(_C, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit=='O'){
-    digitalWrite(_A, _segOn);
-    digitalWrite(_B, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_D, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
   }
 
   if(digit=='P'){
-    digitalWrite(_A, _segOn);
-    digitalWrite(_B, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit=='Q'){
-    digitalWrite(_A, _segOn);
-    digitalWrite(_B, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit=='R'){
-    digitalWrite(_E, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit=='S'){
-    digitalWrite(_A, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_D, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit=='T'){
-    digitalWrite(_D, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
  if(digit=='U'){
-    digitalWrite(_B, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_D, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
   }
 
   if(digit=='V'){
-    digitalWrite(_C, _segOn);
-    digitalWrite(_D, _segOn);
-    digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_E, _segOn);
   }
 
   if(digit=='W'){
-    digitalWrite(_B, _segOn);
-    digitalWrite(_D, _segOn);
-    digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_F, _segOn);
   }
 
   if(digit=='X'){
-    digitalWrite(_B, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit=='Y'){
-    digitalWrite(_B, _segOn);
-    digitalWrite(_C, _segOn);
-    digitalWrite(_D, _segOn);
-    digitalWrite(_F, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_C, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_F, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 
   if(digit=='Z'){
-    digitalWrite(_A, _segOn);
-    digitalWrite(_B, _segOn);
-    digitalWrite(_D, _segOn);
-    digitalWrite(_E, _segOn);
-    digitalWrite(_G, _segOn);
+    mcp.digitalWrite(_A, _segOn);
+    mcp.digitalWrite(_B, _segOn);
+    mcp.digitalWrite(_D, _segOn);
+    mcp.digitalWrite(_E, _segOn);
+    mcp.digitalWrite(_G, _segOn);
   }
 }
 
