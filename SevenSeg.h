@@ -22,6 +22,7 @@
 #ifndef SevenSeg_h
 #define SevenSeg_h
 
+#include <Adafruit_MCP23X17.h>
 #include "Arduino.h"
 
 class SevenSeg
